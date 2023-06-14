@@ -20,6 +20,7 @@ import javax.jdo.annotations.VersionStrategy;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import domainapp.modules.simple.dom.jugador.Jugador;
+import domainapp.modules.simple.dom.partido.reporte.EjecutarPartidoReporte;
 import domainapp.modules.simple.dom.partido.types.Estados;
 
 import domainapp.modules.simple.dom.partido.types.Horarios;
@@ -231,6 +232,24 @@ public class Partido implements Comparable<Partido> {
 
     private final static Comparator<Partido> comparator =
             Comparator.comparing(Partido::getHorario);
+
+
+
+
+///////////////////////////////////////////////////////////////
+    /*                  REPORTE PARTIDOS                           */
+////////////////////////////////////////////////////////////////
+
+
+    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+//    ActionLayout(position = ActionLayout.Position.PANEL)
+    public EjecutarPartidoReporte ImprimirReporte(){
+        return this.ImprimirReporte();
+
+//        return
+    }
+
+/////////////////////////////////////////////////////////////////////////////
 
     @Override
     public int compareTo(final Partido other) {

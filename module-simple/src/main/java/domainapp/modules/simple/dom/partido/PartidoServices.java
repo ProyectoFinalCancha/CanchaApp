@@ -1,6 +1,8 @@
 package domainapp.modules.simple.dom.partido;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Priority;
@@ -11,6 +13,7 @@ import javax.jdo.annotations.NotPersistent;
 
 import domainapp.modules.simple.dom.jugador.Jugador;
 import domainapp.modules.simple.dom.jugador.JugadorServices;
+import domainapp.modules.simple.dom.partido.reporte.EjecutarPartidoReporte;
 import domainapp.modules.simple.dom.partido.types.Estados;
 import domainapp.modules.simple.dom.partido.types.Horarios;
 import domainapp.modules.simple.dom.partido.types.NumeroCancha;
@@ -23,16 +26,21 @@ import org.apache.causeway.applib.annotation.DomainService;
 import org.apache.causeway.applib.annotation.DomainServiceLayout;
 import org.apache.causeway.applib.annotation.NatureOfService;
 import org.apache.causeway.applib.annotation.PriorityPrecedence;
+import org.apache.causeway.applib.annotation.Programmatic;
 import org.apache.causeway.applib.annotation.PromptStyle;
+import org.apache.causeway.applib.annotation.Publishing;
 import org.apache.causeway.applib.annotation.SemanticsOf;
 import org.apache.causeway.applib.query.Query;
 import org.apache.causeway.applib.services.message.MessageService;
 import org.apache.causeway.applib.services.repository.RepositoryService;
+import org.apache.causeway.applib.value.Blob;
 import org.apache.causeway.persistence.jdo.applib.services.JdoSupportService;
 
 import lombok.RequiredArgsConstructor;
 
 import domainapp.modules.simple.SimpleModule;
+
+import static org.apache.causeway.applib.annotation.SemanticsOf.IDEMPOTENT;
 
 
 @Named(SimpleModule.NAMESPACE + ".PartidoServices")
@@ -130,6 +138,37 @@ public class PartidoServices {
         else if (buscarPartido(horario, dia, NumeroCancha.Dos) == null) numeroCancha = NumeroCancha.Dos;
         return numeroCancha;
     }
+
+
+///////////////////////////////////////////////////////////////
+/*                  REPORTE PARTIDOS                           */
+////////////////////////////////////////////////////////////////
+
+
+
+//    @Programmatic
+//    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+////    ActionLayout(position = ActionLayout.Position.PANEL)
+//    public EjecutarPartidoReporte ImprimirReporte(){
+//        return this.ImprimirReporte();
+//    }
+
+
+    public Blob generarReportePartido() throws JRException, IOException {
+        List<Partido> partidos = new ArrayList<Partido>();
+        EjecutarPartidoReporte ejecutarPartidoReporte = new EjecutarPartidoReporte();
+        partidos = repositoryService.allInstances(Partido.class);
+        return ejecutarPartidoReporte.ListadoPartidosPDF(partidos);
+    }
+    @Programmatic
+    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+    public Blob ImprimirReporte() throws JRException, IOException {
+        return generarReportePartido();
+    }
+
+
+
+
 
     public void ping() {
         JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);
