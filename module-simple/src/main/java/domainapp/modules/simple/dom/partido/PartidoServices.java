@@ -20,6 +20,8 @@ import domainapp.modules.simple.dom.partido.types.NumeroCancha;
 
 import domainapp.modules.simple.dom.so.SimpleObject;
 
+import net.sf.jasperreports.engine.JRException;
+
 import org.apache.causeway.applib.annotation.Action;
 import org.apache.causeway.applib.annotation.ActionLayout;
 import org.apache.causeway.applib.annotation.DomainService;
@@ -50,10 +52,12 @@ import static org.apache.causeway.applib.annotation.SemanticsOf.IDEMPOTENT;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class PartidoServices {
 
+    @Inject
     final RepositoryService repositoryService;
     final JdoSupportService jdoSupportService;
     final JugadorServices jugadorServices;
     final MessageService messageService;
+
 
 
 
@@ -143,6 +147,7 @@ public class PartidoServices {
 ///////////////////////////////////////////////////////////////
 /*                  REPORTE PARTIDOS                           */
 ////////////////////////////////////////////////////////////////
+//REPORTE ARTICULO
 
 
 
@@ -153,22 +158,22 @@ public class PartidoServices {
 //        return this.ImprimirReporte();
 //    }
 
-
+    @Programmatic
     public Blob generarReportePartido() throws JRException, IOException {
         List<Partido> partidos = new ArrayList<Partido>();
         EjecutarPartidoReporte ejecutarPartidoReporte = new EjecutarPartidoReporte();
         partidos = repositoryService.allInstances(Partido.class);
         return ejecutarPartidoReporte.ListadoPartidosPDF(partidos);
     }
-    @Programmatic
-    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
-    public Blob ImprimirReporte() throws JRException, IOException {
-        return generarReportePartido();
-    }
+//    @Programmatic
+//    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+//    public Blob ImprimirReporte() throws JRException, IOException {
+//        return generarReportePartido();
+//    }
 
 
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void ping() {
         JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);

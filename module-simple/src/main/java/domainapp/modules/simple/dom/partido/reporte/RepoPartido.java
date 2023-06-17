@@ -6,13 +6,21 @@ import domainapp.modules.simple.dom.jugador.Jugador;
 import domainapp.modules.simple.dom.partido.types.Horarios;
 import domainapp.modules.simple.dom.partido.types.NumeroCancha;
 
-@lombok.Getter @lombok.Setter
+import lombok.Getter;
+import lombok.Setter;
+
+//@lombok.Getter @lombok.Setter
 public class RepoPartido {
 
+    @Getter    @Setter
     private LocalDate dia;
+    @Getter    @Setter
     private Horarios horario;
+    @Getter    @Setter
     private NumeroCancha numeroCancha;
+    @Getter    @Setter
     private Jugador representante;
+    @Getter    @Setter
     private double precio;
 //      private String dia;
 //    private String horario;
@@ -30,20 +38,20 @@ public class RepoPartido {
 
     }
     public RepoPartido() { }
-        public LocalDate getDia() {
-            return this.dia;
-        }
-        public Horarios getHorario () {
-            return horario;
-        }
-        public NumeroCancha numeroCancha () {
-            return numeroCancha;
-        }
-        public Jugador getRepresentante () {
-            return representante;
-        }
-        public double getPrecio() {
-            return precio;
-        }
+//        public LocalDate getDia() {
+//            return this.dia;
+//        }
+//        public Horarios getHorario () {
+//            return horario;
+//        }
+//        public NumeroCancha numeroCancha () {
+//            return numeroCancha;
+//        }
+//        public Jugador getRepresentante () {
+//            return representante;
+//        }
+//        public double getPrecio() {
+//            return precio;
+//        }
 
 }
