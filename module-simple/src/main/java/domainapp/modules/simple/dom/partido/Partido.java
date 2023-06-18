@@ -1,6 +1,8 @@
 package domainapp.modules.simple.dom.partido;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,12 +23,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import domainapp.modules.simple.dom.jugador.Jugador;
 import domainapp.modules.simple.dom.partido.reporte.EjecutarPartidoReporte;
+import domainapp.modules.simple.dom.partido.reporte.Reportes;
+import domainapp.modules.simple.dom.partido.reporte.RepoPartido;
 import domainapp.modules.simple.dom.partido.types.Estados;
 
 import domainapp.modules.simple.dom.partido.types.Horarios;
 import domainapp.modules.simple.dom.partido.types.NumeroCancha;
 
-
+import domainapp.modules.simple.dom.partido.PartidoServices;
 
 import org.apache.causeway.applib.annotation.Action;
 import org.apache.causeway.applib.annotation.ActionLayout;
@@ -34,6 +38,7 @@ import org.apache.causeway.applib.annotation.DomainObject;
 import org.apache.causeway.applib.annotation.DomainObjectLayout;
 import org.apache.causeway.applib.annotation.Editing;
 import org.apache.causeway.applib.annotation.Optionality;
+import org.apache.causeway.applib.annotation.Programmatic;
 import org.apache.causeway.applib.annotation.Property;
 import org.apache.causeway.applib.annotation.PropertyLayout;
 import org.apache.causeway.applib.annotation.Publishing;
@@ -44,6 +49,7 @@ import org.apache.causeway.applib.layout.LayoutConstants;
 import org.apache.causeway.applib.services.message.MessageService;
 import org.apache.causeway.applib.services.repository.RepositoryService;
 import org.apache.causeway.applib.services.title.TitleService;
+import org.apache.causeway.applib.value.Blob;
 
 import static org.apache.causeway.applib.annotation.SemanticsOf.IDEMPOTENT;
 import static org.apache.causeway.applib.annotation.SemanticsOf.IDEMPOTENT_ARE_YOU_SURE;
@@ -55,7 +61,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.val;
-
+import net.sf.jasperreports.engine.JRException;
 import domainapp.modules.simple.SimpleModule;
 
 
@@ -241,12 +247,22 @@ public class Partido implements Comparable<Partido> {
 ////////////////////////////////////////////////////////////////
 
 
-    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
-//    ActionLayout(position = ActionLayout.Position.PANEL)
-    public EjecutarPartidoReporte ImprimirReporte(){
-        return this.ImprimirReporte();
+//     @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+// //    ActionLayout(position = ActionLayout.Position.PANEL)
+//     public EjecutarPartidoReporte ImprimirReporte(){
+//         return this.ImprimirReporte();
 
-//        return
+// //        return
+//     }
+
+
+@Programmatic
+    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+    public Blob generarReportePartido() throws JRException, IOException {
+        List<Partido> partidos = new ArrayList<Partido>();
+        EjecutarPartidoReporte ejecutarPartidoReporte = new EjecutarPartidoReporte();
+        partidos = repositoryService.allInstances(Partido.class);
+        return ejecutarPartidoReporte.ListadoPartidosPDF(partidos);
     }
 
 /////////////////////////////////////////////////////////////////////////////

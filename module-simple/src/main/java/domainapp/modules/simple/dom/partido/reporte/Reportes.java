@@ -13,6 +13,7 @@ import org.apache.causeway.applib.annotation.SemanticsOf;
 import org.apache.causeway.applib.services.repository.RepositoryService;
 import org.apache.causeway.applib.value.Blob;
 
+import domainapp.modules.simple.dom.partido.Partido;
 import domainapp.modules.simple.dom.partido.PartidoServices;
 import net.sf.jasperreports.engine.JRException;
 
@@ -24,13 +25,15 @@ public class Reportes {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout( named = "Exportar Partidos PDF", sequence = "1")
+    @ActionLayout( named = "Exportar Partidos PDF", sequence = "7")
     public Blob generarReportePartido() throws JRException, IOException {
-        return partidoServices.generarReportePartido();
+        // return partidoServices.generarReportePartido();
+        return partido.generarReportePartido();
 
     }
 
 
+     Partido partido;
     @Inject RepositoryService repositoryService;
     @Inject PartidoServices partidoServices;
 }

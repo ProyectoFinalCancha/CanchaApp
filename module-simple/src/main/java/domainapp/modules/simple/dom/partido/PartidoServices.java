@@ -158,13 +158,15 @@ public class PartidoServices {
 //        return this.ImprimirReporte();
 //    }
 
-    @Programmatic
-    public Blob generarReportePartido() throws JRException, IOException {
-        List<Partido> partidos = new ArrayList<Partido>();
-        EjecutarPartidoReporte ejecutarPartidoReporte = new EjecutarPartidoReporte();
-        partidos = repositoryService.allInstances(Partido.class);
-        return ejecutarPartidoReporte.ListadoPartidosPDF(partidos);
-    }
+
+    // @Programmatic
+    // @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
+    // public Blob generarReportePartido() throws JRException, IOException {
+    //     List<Partido> partidos = new ArrayList<Partido>();
+    //     EjecutarPartidoReporte ejecutarPartidoReporte = new EjecutarPartidoReporte();
+    //     partidos = repositoryService.allInstances(Partido.class);
+    //     return ejecutarPartidoReporte.ListadoPartidosPDF(partidos);
+    // }
 //    @Programmatic
 //    @Action(semantics = IDEMPOTENT,commandPublishing = Publishing.ENABLED,executionPublishing = Publishing.ENABLED)
 //    public Blob ImprimirReporte() throws JRException, IOException {
@@ -175,13 +177,13 @@ public class PartidoServices {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void ping() {
-        JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);
-        final QPartido candidate = QPartido.candidate();
-        q.range(0, 2);
-        q.orderBy(candidate.horario.asc());
-        q.executeList();
+    // public void ping() {
+    //     JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);
+    //     final QPartido candidate = QPartido.candidate();
+    //     q.range(0, 2);
+    //     q.orderBy(candidate.horario.asc());
+    //     q.executeList();
 
-    }
+    // }
 
 }
